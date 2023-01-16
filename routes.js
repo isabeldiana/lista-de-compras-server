@@ -34,10 +34,21 @@ app.delete('/products/:id', async (req, res) => {
         await Products.destroy({where: {id: req.params.id}});
         return res.json({message: `Exclusao do item ID ${req.params.id} feita com sucesso`});
    } catch (error) {
-        return console.err("Error na exclusao", error);
+        return console.error("Error na exclusao", error);
    }
     
 });
+
+app.put('/products/:id', async (req, res) => {
+    const {products, amount} = req.body;
+     try { 
+         await Products.update({products, amount}, {where: {id: req.params.id}});
+         return res.json({msg: ` ${products} editado com sucesso`});
+     } 
+    catch (error) {
+        return res.json({msg: `Erro ao editar o produto: ${products}`}, error);
+    };   
+})
     
 app.listen(3333)
 
